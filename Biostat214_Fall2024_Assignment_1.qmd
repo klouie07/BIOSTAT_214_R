@@ -1,0 +1,428 @@
+---
+format:
+  html:
+    embed-resources: true
+    toc: true
+error: true
+---
+# Biostat 214 2024 Assignment 1
+
+Name: Kaileiani Louie
+
+## General Instructions
+
+Please attempt all exercises individually.
+
+Always use R's builtin documentation for help as needed. Do not rush to search the internet, you 
+will get many bad and/or irrelevant answers.
+
+Write your solution below each exercise and test that it works (i.e. execute it).
+Always feel free to run any number of tests on your code, but only submit what is explicitly 
+requested. If you wish, you can always keep a draft with extra code or notes for your own reference.
+
+Do not delete any existing text, code, or comments. Do not alter the YAML header (the lines at the 
+top between the set of 3 dashes `---`) or the file may not render correctly.
+
+<!-- This is an example of a comment line in a Quarto file -->
+
+Comment lines with "@grade" are used to a) show you how many points are assigned to each exercise,
+and b) add up grades. Do not delete or modify them.
+
+If you have any questions, please make a note and bring them up in class next week.
+No question is too big or too small.
+
+***Take note of the CLE deadline. Uploads are automatically disabled past the deadline and no 
+assignments are accepted via email.***
+When you are done answering all questions, render this document to HTML and
+***submit both this .qmd and the output .html file on the CLE***.
+
+Each assignment can get a max score of 100%. Bonus questions can help make up for lost points in
+other questions, but can't raise your score above 100%.
+
+## Assignment 1 Instructions
+
+In all exercises below you are asked to write a function and test it.
+
+Note that a minimal documentation of each function you are expected to write is included using the 
+roxygen format that includes the function title, argument description and information on the 
+returned value.
+
+This is to help you learn the basics of roxygen and emphasize that you should make it a habit to
+document all functions you write at the time you write them.
+
+## 1. Single argument
+
+1A. Write a function named `add10()` that accepts a numeric vector `x` and adds 10 to each element.  
+
+Remember that R does not enforce class or type of input arguments. In the instructions, 
+"numeric vector`x`" is to help you understand with what kind of input your function should work. 
+You are not asked to write tests check or ensure the input is numeric. The same applied in all
+exercises below.
+
+<!-- @grade 2/2 -->
+```{r}
+#' Add 10 to vector
+#' 
+#' @param x Numeric vector
+#' 
+#' @return Numeric vector
+
+
+add10 <- function(x) {
+  return(x + 10)
+}
+
+```
+
+1B. Test your function:
+<!-- @grade 1/1 -->
+```{r}
+
+x <- c(1, 2, 3, 4, 5)
+
+add10(x)
+
+```
+
+1C. Test what happens if your input is *not* numeric (i.e. neither double nor integer):
+<!-- @grade 1/1 -->
+```{r}
+
+x <- c("item 1", "item 2", "item 3", "item 4", "item 5")
+
+add10(x)
+
+```
+
+## 2. Two arguments
+
+2A. Write a function named `addk()` that accepts a numeric vector `x` and an integer `k`
+and returns the vector after adding `k` to each element.
+
+<!-- @grade 2/2 -->
+```{r}
+#' Add k to vector
+#' 
+#' @param x Numeric vector
+#' @param k Integer to be added to `x`
+#' 
+#' @return Numeric vector
+
+
+addk <- function(x, k) {
+  return(x + k)
+}
+
+```
+
+2B. Test your function:
+```{r}
+
+x <- c(1, 2, 3, 4, 5)
+k <- 20
+
+addk(x, k)
+
+```
+
+## 3. Two arguments with default
+
+3A. Write a function named `dividebyh()` that accepts a numeric vector `x` and a decimal `h` with 
+default value equal to 2.3 and returns a numeric vector after dividing each element of `x` by `h`.
+
+<!-- @grade 3/3 -->
+```{r}
+#' Divide by h
+#' 
+#' @param x Numeric vector
+#' @param h Decimal to divide `x` by
+#' 
+#' @return Numeric vector
+
+
+dividebyh <- function(x, h = 2.3) {
+  return(x / h)
+}
+
+```
+
+3B. Test your function using default `h`:
+<!-- @grade 1/1 -->
+```{r}
+
+x <- c(2.3, 4.6, 6.9, 9.2, 11.5)
+
+dividebyh(x)
+
+```
+
+3C. Test your function by providing a different value of `h` of your choice:
+<!-- @grade 1/1 -->
+```{r}
+
+x <- c(1.1, 2.2, 3.3, 4.4)
+
+dividebyh(x, 1.1)
+
+```
+
+## 4. Two arguments with error
+
+4A. Write a function named `bmi()` that accepts two numeric vectors, `weight` and `height` and 
+returns the bmi for each pair of input values. 
+If any value in `weight` is non-positive, the function should stop with an error message:
+"Only positive weight values are allowed."
+If any value in `height` is non-positive, the function should stop with an error message:
+"Only positive height values are allowed."
+
+<!-- @grade 4/4 -->
+```{r}
+#' Calculate BMI
+#' 
+#' Calculates Body Mass Index (BMI) from weight and height
+#'
+#' @param weight Numeric vector: Weight in kg
+#' @param height Numeric vector: Height in meters
+#'
+#' @return Numeric vector
+
+
+bmi <- function(weight, height) {
+  if (!is.numeric(weight) || any(weight <= 0)) {
+    stop("Only positive weight values are allowed.")
+  }
+  
+  if (!is.numeric(height) || any(height <= 0)) {
+    stop("Only positive height values are allowed.")
+  }
+  
+  bmi_values <- weight / (height ^ 2)
+  
+  return(bmi_values)
+}
+
+```
+
+4B. Test your function using weight and height vectors of length 3 with positive values only:
+<!-- @grade 1/1 -->
+```{r}
+
+weight <- c(70, 80, 60) #kg
+height <- c(1.75, 1.80, 1.85) #m
+
+bmi(weight, height)
+
+```
+
+4C. Test your function using weight and height vectors of length 3 including a single negative value in `height`:
+<!-- @grade 1/1 -->
+```{r}
+
+weight <- c(70, 80, 60) #kg
+height <- c(1.75, 1.80, -1.85) #m
+
+bmi(weight, height)
+
+```
+
+## 5. Custom scatter plot
+
+5A. Write a custom scatter plot function named `scatter()` that accepts the following arguments:
+
+- `x` numeric vector
+- `y` numeric vector
+- `marker_color` that defaults to "magenta" 
+- Additional arguments `...` 
+
+and plots a scatter plot using `plot()`, with points colored as defined by
+`marker_color` and where the additional arguments are passed to `plot()`.
+
+ <!-- @grade 4/4  -->
+```{r}
+#' Custom scatter plot
+#' 
+#' @param x Numeric vector
+#' @param y Numeric vector
+#' @param marker_color Color of the markers
+#' @param ... Additional arguments passed to `plot()`
+#' 
+#' @return None
+
+
+scatter <- function(x, y, marker_color = "magenta", ...) {
+  plot(x, y, col = marker_color, pch = 16, ...)
+}
+
+```
+
+5B. Test your function using the default `marker_color`:
+<!-- @grade 1/1 -->
+```{r}
+
+x <- rnorm(10)  
+y <- rnorm(10) 
+
+scatter(x, y)
+
+```
+
+5C. Test your function using a different `marker_color`:
+<!-- @grade 1/1 -->
+```{r}
+
+scatter(x, y, marker_color = "blue")
+
+```
+
+## 6. Function with warning
+
+6A. Write a function named `squared()` that:
+
+- accepts a vector `x`
+- returns a vector with the square of each element of `x`
+- produces a warning if any values of `x` are negative that prints: 
+  "Negative values found!"
+
+<!-- @grade 3/3 -->
+```{r}
+#' Square a vector
+#' 
+#' Squares a vector and produces a warning if any negative values are found
+#' 
+#' @param x Numeric vector
+#' 
+#' @return Numeric vector
+
+
+squared <- function(x) {
+  if (any(x < 0)) {
+    warning("Negative values found!")
+  }
+  
+  return(x^2)
+}
+
+```
+
+6B. Test your function with a vector that contains no negative values:
+<!-- @grade 1/1 -->
+```{r}
+
+x <- c(1, 2, 3, 4, 5)
+
+squared(x)
+
+```
+
+6C. Test your function with a vector that contains negative values:
+<!-- @grade 1/1 -->
+```{r}
+
+x <- c(-1, 2, -3, 4, -5)
+
+squared(x)
+
+```
+
+## 7. Matching arguments
+
+7A. Write a function named `patient_info()` that accepts two arguments:
+
+- `mrn` integer
+- `hospital` character with only allowed values "Parnassus", "Mt_Zion", "Mission_Bay", "SFGH"
+
+and prints "MRN: mrn; Hospital: hospital" to the console.
+
+<!-- @grade 4/4 -->
+```{r}
+#' Patient information
+#'
+#' Prints patient information to the console
+#' 
+#' @param mrn Integer: Medical Record Number
+#' @param hospital Character: "Parnassus", "Mt_Zion", "Mission_Bay", or "SFGH": Hospital name
+#' 
+#' @return None
+
+
+patient_info <- function(mrn, hospital) {
+  allowed_hospitals <- c("Parnassus", "Mt_Zion", "Mission_Bay", "SFGH")
+  if (!hospital %in% allowed_hospitals) {
+    stop("Hospital does not match")
+  }
+  
+  cat("MRN:", mrn, "; Hospital:", hospital)
+}
+
+```
+
+7B. Test your function with a valid hospital:
+<!-- @grade 1/1 -->
+```{r}
+
+mrn <- as.integer(7412)
+hospital <- "Parnassus"
+
+patient_info(mrn, hospital)
+
+```
+
+7C. Test your function with an invalid hospital:
+<!-- @grade 1/1 -->
+```{r}
+
+rn <- as.integer(7412)
+hospital <- "Oakland"
+
+patient_info(mrn, hospital)
+
+```
+
+## 8. Summarize data.frame (Bonus question)
+
+8A. Write a function named `summarize` that has a single argument `x`.
+
+It should accept a data.frame and:
+
+- Print the statement `Input consists of N rows by P columns.`,
+replacing `N` and `P` with the appropriate number of rows and columns,
+- Return a list with two elements named "n_rows" and "n_columns" that
+contain the respective numbers.
+
+<!-- @grade 5/5 -->
+```{r}
+#' Summarize data.frame
+#' 
+#' Summarizes a data.frame by printing the number of rows and columns
+#' 
+#' @param x Data frame
+#' 
+#' @return List with two elements: n_rows and n_cols
+
+
+summarize <- function(x) {
+  n_rows <- nrow(x)
+  n_columns <- ncol(x)
+  
+  cat("Input consists of", n_rows, "rows by", n_columns, "columns.", "\n")
+  
+  return(list(n_rows = n_rows, n_columns = n_columns))
+}
+
+```
+
+8B. Test your function on the `iris` data frame and assign the output to `iris_summary`:
+<!-- @grade 1/1 -->
+```{r}
+
+iris_summary <- summarize(iris)
+
+iris_summary
+
+```
+
+## Submit
+
+When you have finished all exercises, compile the document into HTML.  
+Double check you have completed all exercises and submit both the .qmd and
+.html files through the CLE.
